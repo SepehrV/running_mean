@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Example Post AJAX Out get JSON Back</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script>
+		$(function() {
+			$('#button1').click(function() {
+				json_data = {}
+                serialized_form = $('#insert_form').serializeArray()
+                json_data[serialized_form[0]['name']] = serialized_form[0]['value']
+                json_data[serialized_form[1]['name']] = serialized_form[1]['value']
+				$.ajax({
+					url: '/insert',
+                    type: "POST",
+                    data: JSON.stringify({ data:json_data }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+					success: function(response) {
+						console.log(response);
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			});
+		});
+    </script>
+
+	<script>
+		$(function() {
+			$('#button2').click(function() {
+				json_data = {}
+                serialized_form = $('#mean_form').serializeArray()
+                json_data[serialized_form[0]['name']] = serialized_form[0]['value']
+                json_data[serialized_form[1]['name']] = serialized_form[1]['value']
+				$.ajax({
+					url: '/getMean',
+                    type: "POST",
+                    data: JSON.stringify({ data:json_data }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+					success: function(response) {
+                        document.getElementById("mean").innerHTML = response['mean']
+                        document.getElementById("numbers").innerHTML = response['numbers']
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			});
+		});
+    </script>
+</head>
+
+<body>
+How to use:
+<br>
+insert username to track the additions for an individual named entity. Enter a number and press add. 
+<br>
+you can add as many numbers as you want and can switch between different usernames
+<br>
+
+
+	<form id="insert_form"  >
+	  username: <input type="text" name="user"><br>
+	  number to add: <input type="number" name="value" step="0.01"><br>
+      <button class="btn btn-lg btn-primary btn-block" type="button" id="button1">add number</button>
+
+	</form>
+<br>
+<br>
+<br>
+<br>
+to retrieve information about a user including their running average and last N entered number, enter the user name and N below. 
+<br>
+	<form id="mean_form" >
+	  username: <input type="text" name="user"><br>
+	  N: <input type="number" name="N"><br>
+      <button class="btn btn-lg btn-primary btn-block" id="button2" type="button">show mean</button>
+	</form>
+Average mean is: <p id="mean"></p>
+<br>
+N latest values for this user are: <p id="numbers"></p>
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ lang|default("en") }}">
+<head>
+</head>
+<body {% block body_id %}{% endblock %}>
+
+### Design and assumptions
+<br>
+
+The solution has a two layer architecture with a user facing interface and backend that take care of storing values into the database.
+<br>
+
+Layers are RQ message broker connects the web interface to the workers. Queries for adding new number get Queued by RQ and consumed by the workers and get written into a Redis DB. 
+<br>
+
+This design is based on the assumption that write queries are far more than read queries and therefore the focus was to optimize that part. The read query (e.g, runnung average and access to elements) are considered more of an analytical toolkit with an occasional use. However they can be optimized given different requirements.
+<br><br>
+
+### Implementation
+<br>
+
+stack is in python with some JS for the frontend. Webserver is implemented using Flask. Redis is chosen as DB due to its efficiancy. 
+Each element is stored with a time stamp for sorting and a unique identifier for retrival purposess.
+
+Deployed by a docker image (pushed to my docker hub cloud). 
+
+can be scaled to many workers accross machines easily. 
+
+Unique identifier for each element will random access to the data 
+
+
+</body>
+</html>
