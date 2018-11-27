@@ -16,7 +16,9 @@ run the command below (assuming docker is installed)
 ```
 docker run -it --entrypoint /code/entrypoint.sh --name server -v CHALLENGE_PATH:/code -p 8888:8888 --rm sepehrv/redis-server
 ```
-then access http://localhost:8888/demo for the demo
+
+access http://localhost:8888/demo for the demo
+
 and access http://localhost:8888/trait for the documentation
 
 ### Design and assumptions
